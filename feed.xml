@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>maseek.codes blog</title>
+    <link href="http://maseek.codes/feed.xml" rel="self" />
+    <link href="http://maseek.codes" />
+    <id>http://maseek.codes/feed.xml</id>
+    <author>
+        <name>Tomas Zemanovic</name>
+        <email>tzemanovic@gmail.com</email>
+    </author>
+    <updated>2014-03-29T00:00:00Z</updated>
+    <entry>
+    <title>Linux Mint in Windows 8 via VMware Player</title>
+    <link href="http://maseek.codes/posts/linux-mint-in-windows-8-via-vmware-player/index.html" />
+    <id>http://maseek.codes/posts/linux-mint-in-windows-8-via-vmware-player/index.html</id>
+    <published>2014-03-29T00:00:00Z</published>
+    <updated>2014-03-29T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.</p>
+<p>First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:</p>
+<pre><code>dism.exe /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
+
+<p>In case you need to enable Hyper-V again, the following undoes the changes:</p>
+<pre><code>dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
+
+<p>Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Create a new virtual machine:</p>
+<p><img src="step-1.jpg" alt="step 1"/></p></li>
+<li><p>Select location of the Linux image, I went for <a href="http://www.linuxmint.com/download.php" target="_blank">Linux Mint 16 Cinnamon 64-bit</a>:</p>
+<p><img src="step-2.jpg" alt="step 2"/></p></li>
+<li><p>The version is Linux 3.x kernel 64-bit:</p>
+<p><img src="step-3.jpg" alt="step 3"/></p></li>
+<li><p>Select where you want to store the virtual machine:</p>
+<p><img src="step-4.jpg" alt="step 4"/></p></li>
+<li><p>Give it appropriate disk capacity, I gave mine only 8GB at fist, but ran out of it quite quickly (if you resize the capacity later on you will most-likely have to do some disk partitioning):</p>
+<p><img src="step-5.jpg" alt="step 5"/></p></li>
+<li><p>Before you finish you will want to customize hardware:</p>
+<p><img src="step-6.jpg" alt="step 6"/></p></li>
+<li><p>Select how much memory you want to use for your VM:</p>
+<p><img src="step-7.jpg" alt="step 7"/></p></li>
+<li><p>Enable 3D graphics acceleration from the Display settings:</p>
+<p><img src="step-8.jpg" alt="step 8"/></p>
+<p>And that’s you ready to roll in Linux.</p></li>
+</ol>
+<p>My screen resolution (1920x1080) was not listed in the display settings, here’s how I fixed it.</p>
+<ol style="list-style-type: decimal">
+<li><p>Calculate VESA CVT mode lines:</p>
+<pre><code>cvt 1920 1080</code></pre>
+</li>
+<li><p>Copy the output starting from after Modeline, and prepend it with <code>xrandr –newmode</code>, e.g.:</p>
+<pre><code>xrandr --newmode "1920x1080_60.00" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</code></pre>
+</li>
+<li><p>and then:</p>
+<pre><code>xrandr --addmode Virtual1 "1920x1080_60.00"</code></pre>
+</li>
+<li><p>Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.</p></li>
+<li><p>Stop Display Manager:</p>
+<pre><code>sudo service mdm stop</code></pre>
+</li>
+<li><p>create X configuration file:</p>
+<pre><code>sudo X -configure</code></pre>
+</li>
+<li><p>and start it again:</p>
+<pre><code>sudo service mdm start</code></pre>
+</li>
+<li><p>Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.</p></li>
+</ol>]]></summary>
+</entry>
+
+</feed>
