@@ -11,8 +11,8 @@
     <updated>2014-05-10T00:00:00Z</updated>
     <entry>
     <title>custom domain site hosted on github</title>
-    <link href="http://maseek.codes/posts/website-hosted-on-github/index.html" />
-    <id>http://maseek.codes/posts/website-hosted-on-github/index.html</id>
+    <link href="http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html" />
+    <id>http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html</id>
     <published>2014-05-10T00:00:00Z</published>
     <updated>2014-05-10T00:00:00Z</updated>
     <summary type="html"><![CDATA[<p>This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It’s free, fast and reliable. You can only host static websites on github, but that’s not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there’s Jekyll’s good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.</p>
