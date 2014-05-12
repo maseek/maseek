@@ -15,53 +15,56 @@
     <id>http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html</id>
     <published>2014-05-10T00:00:00Z</published>
     <updated>2014-05-10T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<p>This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It’s free, fast and reliable. You can only host static websites on github, but that’s not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there’s Jekyll’s good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.</p>
-<p>To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.</p>
-<p>To redirect the github page to your custom domain create a <strong>CNAME</strong> file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)</p>
-<p>It is handy to create a <em>one-click</em> publish shell script. Here is mine:</p>
-<pre><code>#!/bin/bash
+    <summary type="html"><![CDATA[This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It's free, fast and reliable. You can only host static websites on github, but that's not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there's Jekyll's good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.
 
-# Create _publish directory if it doesn't exits
+To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.
+
+To redirect the github page to your custom domain create a **CNAME** file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)
+
+It is handy to create a *one-click* publish shell script. Here is mine:
+
+<pre><code class="hljs"><span class="hljs-shebang">#!/bin/bash
+</span>
+<span class="hljs-comment"># Create _publish directory if it doesn't exits</span>
 mkdir -p _publish
-cd _publish
+<span class="hljs-built_in">cd</span> _publish
 
-# Clone the giuthub page repo or pull the latest version
-if [ ! -d "maseek.github.io" ]; then
+<span class="hljs-comment"># Clone the giuthub page repo or pull the latest version</span>
+<span class="hljs-keyword">if</span> [ ! <span class="hljs-operator">-d</span> <span class="hljs-string">"maseek.github.io"</span> ]; <span class="hljs-keyword">then</span>
     git clone https://github.com/maseek/maseek.github.io.git
-else
+<span class="hljs-keyword">else</span>
     git pull origin master
-fi
+<span class="hljs-keyword">fi</span>
 
-cd maseek.github.io
+<span class="hljs-built_in">cd</span> maseek.github.io
 
-# Prepend the file names you want to keep in here with dot
+<span class="hljs-comment"># Prepend the file names you want to keep in here with dot</span>
 mv CNAME .CNAME
 mv README.md .README.md
 
-# Clean up
+<span class="hljs-comment"># Clean up</span>
 rm -rf *
 
-# Undo the name changes
+<span class="hljs-comment"># Undo the name changes</span>
 mv .CNAME CNAME
 mv .README.md README.md
 
-# Hakyll by default generates site into _site directory
+<span class="hljs-comment"># Hakyll by default generates site into _site directory</span>
 cp -rf ../../_site/* .
 
-# Add all files to git
+<span class="hljs-comment"># Add all files to git</span>
 git add --all .
 git add -u :/
 
-echo -n "enter commit message: "
-read msg
-git commit -m "$msg"
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"enter commit message: "</span>
+<span class="hljs-built_in">read</span> msg
+git commit -m <span class="hljs-string">"<span class="hljs-variable">$msg</span>"</span>
 
-# If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window
-# git config --global core.askpass "git-gui--askpass"
+<span class="hljs-comment"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
+<span class="hljs-comment"># git config --global core.askpass "git-gui--askpass"</span>
 
 git push origin master
 </code></pre>
-
 ]]></summary>
 </entry>
 <entry>
@@ -70,56 +73,82 @@ git push origin master
     <id>http://maseek.codes/posts/linux-mint-in-windows-8-via-vmware-player/index.html</id>
     <published>2014-03-29T00:00:00Z</published>
     <updated>2014-03-29T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<p>For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.</p>
-<p>First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:</p>
-<pre><code>dism.exe /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
+    <summary type="html"><![CDATA[For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.
 
-<p>In case you need to enable Hyper-V again, the following undoes the changes:</p>
-<pre><code>dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
+First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:
 
-<p>Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.</p>
-<ol style="list-style-type: decimal">
-<li><p>Create a new virtual machine:</p>
-<p><img src="step-1.jpg" alt="step 1"/></p></li>
-<li><p>Select location of the Linux image, I went for <a href="http://www.linuxmint.com/download.php" target="_blank">Linux Mint 16 Cinnamon 64-bit</a>:</p>
-<p><img src="step-2.jpg" alt="step 2"/></p></li>
-<li><p>The version is Linux 3.x kernel 64-bit:</p>
-<p><img src="step-3.jpg" alt="step 3"/></p></li>
-<li><p>Select where you want to store the virtual machine:</p>
-<p><img src="step-4.jpg" alt="step 4"/></p></li>
-<li><p>Give it appropriate disk capacity, I gave mine only 8GB at fist, but ran out of it quite quickly (if you resize the capacity later on you will most-likely have to do some disk partitioning):</p>
-<p><img src="step-5.jpg" alt="step 5"/></p></li>
-<li><p>Before you finish you will want to customize hardware:</p>
-<p><img src="step-6.jpg" alt="step 6"/></p></li>
-<li><p>Select how much memory you want to use for your VM:</p>
-<p><img src="step-7.jpg" alt="step 7"/></p></li>
-<li><p>Enable 3D graphics acceleration from the Display settings:</p>
-<p><img src="step-8.jpg" alt="step 8"/></p>
-<p>And that’s you ready to roll in Linux.</p></li>
-</ol>
-<p>My screen resolution (1920x1080) was not listed in the display settings, here’s how I fixed it.</p>
-<ol style="list-style-type: decimal">
-<li><p>Calculate VESA CVT mode lines:</p>
-<pre><code>cvt 1920 1080</code></pre>
-</li>
-<li><p>Copy the output starting from after Modeline, and prepend it with <code>xrandr –newmode</code>, e.g.:</p>
-<pre><code>xrandr --newmode "1920x1080_60.00" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</code></pre>
-</li>
-<li><p>and then:</p>
-<pre><code>xrandr --addmode Virtual1 "1920x1080_60.00"</code></pre>
-</li>
-<li><p>Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.</p></li>
-<li><p>Stop Display Manager:</p>
-<pre><code>sudo service mdm stop</code></pre>
-</li>
-<li><p>create X configuration file:</p>
-<pre><code>sudo X -configure</code></pre>
-</li>
-<li><p>and start it again:</p>
-<pre><code>sudo service mdm start</code></pre>
-</li>
-<li><p>Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.</p></li>
-</ol>]]></summary>
+<pre><code class="hljs">dism.exe /<span class="hljs-constant">Online</span> /<span class="hljs-constant">Disable</span>-<span class="hljs-constant">Feature</span><span class="hljs-symbol">:Microsoft-Hyper-V</span></code></pre>
+
+In case you need to enable Hyper-V again, the following undoes the changes:
+
+<pre><code class="hljs">dism.exe /<span class="hljs-constant">Online</span> /<span class="hljs-constant">Enable</span>-<span class="hljs-constant">Feature</span><span class="hljs-symbol">:Microsoft-Hyper-V</span> /<span class="hljs-constant">All</span></code></pre>
+
+Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.
+
+1. Create a new virtual machine:
+
+	<img src="step-1.jpg" alt="step 1">
+
+1. Select location of the Linux image, I went for <a href="http://www.linuxmint.com/download.php" target="_blank">Linux Mint 16 Cinnamon 64-bit</a>:
+
+	<img src="step-2.jpg" alt="step 2">
+
+1. The version is Linux 3.x kernel 64-bit:
+
+	<img src="step-3.jpg" alt="step 3">
+
+1. Select where you want to store the virtual machine:
+
+	<img src="step-4.jpg" alt="step 4">
+
+1. Give it appropriate disk capacity, I gave mine only 8GB at fist, but ran out of it quite quickly (if you resize the capacity later on you will most-likely have to do some disk partitioning):
+
+	<img src="step-5.jpg" alt="step 5">
+
+1. Before you finish you will want to customize hardware:
+
+	<img src="step-6.jpg" alt="step 6">
+
+1. Select how much memory you want to use for your VM:
+
+	<img src="step-7.jpg" alt="step 7">
+
+1. Enable 3D graphics acceleration from the Display settings:
+
+	<img src="step-8.jpg" alt="step 8">
+	
+	And that's you ready to roll in Linux.
+	
+My screen resolution (1920x1080) was not listed in the display settings, here's how I fixed it.
+
+1. Calculate VESA CVT mode lines:
+
+	<pre><code class="hljs">cvt 1920 1080</code></pre>
+
+1. Copy the output starting from after Modeline, and prepend it with <code>xrandr --newmode</code>, e.g.:
+
+	<pre><code class="hljs">xrandr <span class="hljs-subst">--</span>newmode <span class="hljs-string">"1920x1080_60.00"</span> <span class="hljs-number">173.00</span> <span class="hljs-number">1920</span> <span class="hljs-number">2048</span> <span class="hljs-number">2248</span> <span class="hljs-number">2576</span> <span class="hljs-number">1080</span> <span class="hljs-number">1083</span> <span class="hljs-number">1088</span> <span class="hljs-number">1120</span> <span class="hljs-attribute">-hsync</span> <span class="hljs-subst">+</span>vsync</code></pre>
+	
+1. and then: 
+
+	<pre><code class="hljs">xrandr --addmode Virtual1 <span class="hljs-string">"1920x1080_60.00"</span></code></pre>
+
+1. Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.
+
+1. Stop Display Manager:
+
+	<pre><code class="hljs"><span class="hljs-built_in">sudo</span> service mdm stop</code></pre>
+
+1. create X configuration file:
+
+	<pre><code class="hljs"><span class="hljs-built_in">sudo</span> X -configure</code></pre>
+
+1. and start it again:
+
+	<pre><code class="hljs"><span class="hljs-built_in">sudo</span> service mdm start</code></pre>
+
+1. Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.
+]]></summary>
 </entry>
 
 </feed>

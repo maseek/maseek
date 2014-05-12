@@ -54,45 +54,45 @@
 <p>To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.</p>
 <p>To redirect the github page to your custom domain create a <strong>CNAME</strong> file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)</p>
 <p>It is handy to create a <em>one-click</em> publish shell script. Here is mine:</p>
-<pre><code>#!/bin/bash
-
-# Create _publish directory if it doesn't exits
+<pre><code class="hljs"><span class="hljs-shebang">#!/bin/bash
+</span>
+<span class="hljs-comment"># Create _publish directory if it doesn't exits</span>
 mkdir -p _publish
-cd _publish
+<span class="hljs-built_in">cd</span> _publish
 
-# Clone the giuthub page repo or pull the latest version
-if [ ! -d &quot;maseek.github.io&quot; ]; then
+<span class="hljs-comment"># Clone the giuthub page repo or pull the latest version</span>
+<span class="hljs-keyword">if</span> [ ! <span class="hljs-operator">-d</span> <span class="hljs-string">&quot;maseek.github.io&quot;</span> ]; <span class="hljs-keyword">then</span>
     git clone https://github.com/maseek/maseek.github.io.git
-else
+<span class="hljs-keyword">else</span>
     git pull origin master
-fi
+<span class="hljs-keyword">fi</span>
 
-cd maseek.github.io
+<span class="hljs-built_in">cd</span> maseek.github.io
 
-# Prepend the file names you want to keep in here with dot
+<span class="hljs-comment"># Prepend the file names you want to keep in here with dot</span>
 mv CNAME .CNAME
 mv README.md .README.md
 
-# Clean up
+<span class="hljs-comment"># Clean up</span>
 rm -rf *
 
-# Undo the name changes
+<span class="hljs-comment"># Undo the name changes</span>
 mv .CNAME CNAME
 mv .README.md README.md
 
-# Hakyll by default generates site into _site directory
+<span class="hljs-comment"># Hakyll by default generates site into _site directory</span>
 cp -rf ../../_site/* .
 
-# Add all files to git
+<span class="hljs-comment"># Add all files to git</span>
 git add --all .
 git add -u :/
 
-echo -n &quot;enter commit message: &quot;
-read msg
-git commit -m &quot;$msg&quot;
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;enter commit message: &quot;</span>
+<span class="hljs-built_in">read</span> msg
+git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$msg</span>&quot;</span>
 
-# If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window
-# git config --global core.askpass &quot;git-gui--askpass&quot;
+<span class="hljs-comment"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
+<span class="hljs-comment"># git config --global core.askpass &quot;git-gui--askpass&quot;</span>
 
 git push origin master
 </code></pre>
@@ -177,7 +177,6 @@ var disqus_shortname = 'maseek';
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="../../js/isotope.pkgd.min.js"></script>
 <!-- bashe, c++, haskell -->
-<script src="../../js/highlight.pack.js"></script>
 <script src="../../js/maseek.min.js"></script>
 </script>
 </body>
