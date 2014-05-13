@@ -6,11 +6,11 @@
 <meta name="description" content>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Tomáš Zemanovič">
- <meta name="keywords" content="github, webhost, blog, hakyll, jakyll, free" />
+ <meta name="keywords" content="blog, hakyll, highlight-js, highlight, javascript, cli" />
  
 <link rel="shortcut icon" href="../../favicon.ico">
 
-<title>maseek :: custom domain site hosted on github</title>
+<title>maseek :: better code highlighting with hakyll</title>
 
 <link href="http://fonts.googleapis.com/css?family=Permanent+Marker|Open+Sans:400italic,700italic,400,700" rel="stylesheet" type="text/css">
 <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -45,67 +45,50 @@
 </div>
 
 <div class="container" role="main">
-    <h1>custom domain site hosted on github</h1>
+    <h1>better code highlighting with hakyll</h1>
 <div class="info">
-    <i class="fa fa-calendar"></i> May 10, 2014
+    <i class="fa fa-calendar"></i> May 13, 2014
 </div>
 <div class="post-body">
-	<p>This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It’s free, fast and reliable. You can only host static websites on github, but that’s not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there’s Jekyll’s good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.</p>
-<p>To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.</p>
-<p>To redirect the github page to your custom domain create a <strong>CNAME</strong> file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)</p>
-<p>It is handy to create a <em>one-click</em> publish shell script. Here is mine:</p>
-<pre><code class="bash hljs"><span class="hljs-shebang">#!/bin/bash
-</span>
-<span class="hljs-comment"># Create _publish directory if it doesn't exits</span>
-mkdir -p _publish
-<span class="hljs-built_in">cd</span> _publish
-
-<span class="hljs-comment"># Clone the giuthub page repo or pull the latest version</span>
-<span class="hljs-keyword">if</span> [ ! <span class="hljs-operator">-d</span> <span class="hljs-string">&quot;maseek.github.io&quot;</span> ]; <span class="hljs-keyword">then</span>
-    git clone https://github.com/maseek/maseek.github.io.git
-<span class="hljs-keyword">else</span>
-    git pull origin master
-<span class="hljs-keyword">fi</span>
-
-<span class="hljs-built_in">cd</span> maseek.github.io
-
-<span class="hljs-comment"># Prepend the file names you want to keep in here with dot</span>
-mv CNAME .CNAME
-mv README.md .README.md
-
-<span class="hljs-comment"># Clean up</span>
-rm -rf *
-
-<span class="hljs-comment"># Undo the name changes</span>
-mv .CNAME CNAME
-mv .README.md README.md
-
-<span class="hljs-comment"># Hakyll by default generates site into _site directory</span>
-cp -rf ../../_site/* .
-
-<span class="hljs-comment"># Add all files to git</span>
-git add --all .
-git add -u :/
-
-<span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;enter commit message: &quot;</span>
-<span class="hljs-built_in">read</span> msg
-git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$msg</span>&quot;</span>
-
-<span class="hljs-comment"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
-<span class="hljs-comment"># git config --global core.askpass &quot;git-gui--askpass&quot;</span>
-
-git push origin master
+	<p>If you want to highlight code syntax on your site there are couple of alternatives. I looked around and <a href="http://highlightjs.org/" target="_blank">highlight.js</a> seemed to be doing best. So I chose to load the JavaScript on the site and manually initialize it. Simple enough.</p>
+<p>But then I realized that I could do better. Because I am using <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> to generate static version of my site, I could run the highlighting code on my site during the build, thus avoiding slowing down the page with yet another JavaScript.</p>
+<p>To connect some pieces together I used <a href="http://nodejs.org/" target="_blank">node.js</a> to create a command that would run <a href="https://github.com/cheeriojs/cheerio" target="_blank">cheerio</a> (to get jQuery abilities) together with <a href="http://highlightjs.org/" target="_blank">highlight.js</a>. You can get the npm package <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> by running:</p>
+<pre><code class="bash hljs">npm install highlight.js-cli
 </code></pre>
 
+<p>There is a <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> function <a href="http://jaspervdj.be/hakyll/reference/Hakyll-Core-UnixFilter.html" target="_blank"><code>unixFilter</code></a> that can run a program as a <a href="http://jaspervdj.be/hakyll/tutorials/03-rules-routes-compilers.html#basic-compilers" target="_blank">compiler</a>. You have to run the <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> through node, pointing it to its source. Like this:</p>
+<pre><code class="haskell hljs"><span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  hakyll $ <span class="hljs-keyword">do</span>
+    match <span class="hljs-string">&quot;posts/*&quot;</span> $ <span class="hljs-keyword">do</span>
+      route $ niceRoute
+        compile $ getResourceBody
+            &gt;&gt;= withItemBody (unixFilter <span class="hljs-string">&quot;node&quot;</span> [<span class="hljs-string">&quot;..\\highlight.js-cli\\bin\\hljs&quot;</span>])
+            &gt;&gt;= saveSnapshot <span class="hljs-string">&quot;post&quot;</span>
+            &gt;&gt;= pandocCompile
+            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">&quot;templates/post.html&quot;</span>    postCtx
+            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">&quot;templates/default.html&quot;</span> postCtx
+            &gt;&gt;= relativizeUrls
+            &gt;&gt;= removeIndexHtml
 
+<span class="hljs-title">pandocCompile</span> :: <span class="hljs-type">Item</span> <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Compiler</span> (<span class="hljs-type">Item</span> <span class="hljs-type">String</span>)
+<span class="hljs-title">pandocCompile</span> item = return $ writePandoc $ readPandoc item
+</code></pre>
+
+And if you put the name of the language in the class like this:
+<pre><code class="html hljs"><span class="hljs-tag">&lt;<span class="hljs-title">pre</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">code</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;haskell&quot;</span>&gt;</span>
+	main :: IO ()
+<span class="hljs-tag">&lt;/<span class="hljs-title">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">pre</span>&gt;</span>
+</code></pre>
+<p>The <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> will pick it up and pass it to <a href="http://highlightjs.org/" target="_blank">highlight.js</a>.</p>
 </div>
 
 <div id="sociallinks" class="social-share tooltips">
     <a href="../../" class="red" data-toggle="tooltip" data-placement="top" title data-original-title="back"><i class="fa fa-arrow-circle-o-left"></i></a>
-    <a href="https://twitter.com/home?status=/posts/custom-domain-site-hosted-on-github/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="tweet"><i class="fa fa-twitter"></i></a>
-    <a href="http://www.facebook.com/sharer/sharer.php?u=/posts/custom-domain-site-hosted-on-github/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on facebook"><i class="fa fa-facebook"></i></a>
-    <a href="https://plus.google.com/share?url=/posts/custom-domain-site-hosted-on-github/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on google+"><i class="fa fa-google-plus"></i></a>
-    <a href="https://github.com/maseek/maseek-codes/blob/master/src/posts/custom-domain-site-hosted-on-github.markdown" class="red" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="edit on github"><i class="fa fa-github-alt"></i></a>
+    <a href="https://twitter.com/home?status=/posts/better-code-highlighting-with-hakyll/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="tweet"><i class="fa fa-twitter"></i></a>
+    <a href="http://www.facebook.com/sharer/sharer.php?u=/posts/better-code-highlighting-with-hakyll/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on facebook"><i class="fa fa-facebook"></i></a>
+    <a href="https://plus.google.com/share?url=/posts/better-code-highlighting-with-hakyll/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on google+"><i class="fa fa-google-plus"></i></a>
+    <a href="https://github.com/maseek/maseek-codes/blob/master/src/posts/better-code-highlighting-with-hakyll.markdown" class="red" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="edit on github"><i class="fa fa-github-alt"></i></a>
 </div>
 <script>
 (function(){window.addEventListener("DOMContentLoaded",function(){
@@ -114,7 +97,7 @@ git push origin master
                                     .getElementsByTagName('a');
                                     for (var i=0;i!=links.length;i++){
                                     links[i].setAttribute("href",
-                                        links[i].href.replace('/posts/custom-domain-site-hosted-on-github/index.html',url));}})})();
+                                        links[i].href.replace('/posts/better-code-highlighting-with-hakyll/index.html',url));}})})();
 </script>
 
 <div id="disqus_thread"></div>

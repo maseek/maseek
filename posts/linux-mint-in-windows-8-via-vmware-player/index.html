@@ -52,10 +52,10 @@
 <div class="post-body">
 	<p>For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.</p>
 <p>First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:</p>
-<pre><code class="hljs">dism.exe /<span class="hljs-constant">Online</span> /<span class="hljs-constant">Disable</span>-<span class="hljs-constant">Feature</span><span class="hljs-symbol">:Microsoft-Hyper-V</span></code></pre>
+<pre><code class="bash hljs">dism.exe /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
 
 <p>In case you need to enable Hyper-V again, the following undoes the changes:</p>
-<pre><code class="hljs">dism.exe /<span class="hljs-constant">Online</span> /<span class="hljs-constant">Enable</span>-<span class="hljs-constant">Feature</span><span class="hljs-symbol">:Microsoft-Hyper-V</span> /<span class="hljs-constant">All</span></code></pre>
+<pre><code class="bash hljs">dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
 
 <p>Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.</p>
 <ol style="list-style-type: decimal">
@@ -80,23 +80,23 @@
 <p>My screen resolution (1920x1080) was not listed in the display settings, here’s how I fixed it.</p>
 <ol style="list-style-type: decimal">
 <li><p>Calculate VESA CVT mode lines:</p>
-<pre><code class="hljs">cvt 1920 1080</code></pre>
+<pre><code class="bash hljs">cvt <span class="hljs-number">1920</span> <span class="hljs-number">1080</span></code></pre>
 </li>
 <li><p>Copy the output starting from after Modeline, and prepend it with <code>xrandr –newmode</code>, e.g.:</p>
-<pre><code class="hljs">xrandr <span class="hljs-subst">--</span>newmode <span class="hljs-string">&quot;1920x1080_60.00&quot;</span> <span class="hljs-number">173.00</span> <span class="hljs-number">1920</span> <span class="hljs-number">2048</span> <span class="hljs-number">2248</span> <span class="hljs-number">2576</span> <span class="hljs-number">1080</span> <span class="hljs-number">1083</span> <span class="hljs-number">1088</span> <span class="hljs-number">1120</span> <span class="hljs-attribute">-hsync</span> <span class="hljs-subst">+</span>vsync</code></pre>
+<pre><code class="bash hljs">xrandr --newmode <span class="hljs-string">&quot;1920x1080_60.00&quot;</span> <span class="hljs-number">173.00</span> <span class="hljs-number">1920</span> <span class="hljs-number">2048</span> <span class="hljs-number">2248</span> <span class="hljs-number">2576</span> <span class="hljs-number">1080</span> <span class="hljs-number">1083</span> <span class="hljs-number">1088</span> <span class="hljs-number">1120</span> -hsync +vsync</code></pre>
 </li>
 <li><p>and then:</p>
-<pre><code class="hljs">xrandr --addmode Virtual1 <span class="hljs-string">&quot;1920x1080_60.00&quot;</span></code></pre>
+<pre><code class="bash hljs">xrandr --addmode Virtual1 <span class="hljs-string">&quot;1920x1080_60.00&quot;</span></code></pre>
 </li>
 <li><p>Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.</p></li>
 <li><p>Stop Display Manager:</p>
-<pre><code class="hljs"><span class="hljs-built_in">sudo</span> service mdm stop</code></pre>
+<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> service mdm stop</code></pre>
 </li>
 <li><p>create X configuration file:</p>
-<pre><code class="hljs"><span class="hljs-built_in">sudo</span> X -configure</code></pre>
+<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> X -configure</code></pre>
 </li>
 <li><p>and start it again:</p>
-<pre><code class="hljs"><span class="hljs-built_in">sudo</span> service mdm start</code></pre>
+<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> service mdm start</code></pre>
 </li>
 <li><p>Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.</p></li>
 </ol>

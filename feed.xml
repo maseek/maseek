@@ -8,8 +8,50 @@
         <name>Tomas Zemanovic</name>
         <email>tzemanovic@gmail.com</email>
     </author>
-    <updated>2014-05-10T00:00:00Z</updated>
+    <updated>2014-05-13T00:00:00Z</updated>
     <entry>
+    <title>better code highlighting with hakyll</title>
+    <link href="http://maseek.codes/posts/better-code-highlighting-with-hakyll/index.html" />
+    <id>http://maseek.codes/posts/better-code-highlighting-with-hakyll/index.html</id>
+    <published>2014-05-13T00:00:00Z</published>
+    <updated>2014-05-13T00:00:00Z</updated>
+    <summary type="html"><![CDATA[If you want to highlight code syntax on your site there are couple of alternatives. I looked around and <a href="http://highlightjs.org/" target="_blank">highlight.js</a> seemed to be doing best. So I chose to load the JavaScript on the site and manually initialize it. Simple enough.
+
+But then I realized that I could do better. Because I am using <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> to generate static version of my site, I could run the highlighting code on my site during the build, thus avoiding slowing down the page with yet another JavaScript.
+
+To connect some pieces together I used <a href="http://nodejs.org/" target="_blank">node.js</a> to create a command that would run <a href="https://github.com/cheeriojs/cheerio" target="_blank">cheerio</a> (to get jQuery abilities) together with <a href="http://highlightjs.org/" target="_blank">highlight.js</a>. You can get the npm package <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> by running:
+
+<pre><code class="bash hljs">npm install highlight.js-cli
+</code></pre>
+
+There is a <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> function <a href="http://jaspervdj.be/hakyll/reference/Hakyll-Core-UnixFilter.html" target="_blank"><code>unixFilter</code></a> that can run a program as a <a href="http://jaspervdj.be/hakyll/tutorials/03-rules-routes-compilers.html#basic-compilers" target="_blank">compiler</a>. You have to run the <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> through node, pointing it to its source. Like this:
+
+<pre><code class="haskell hljs"><span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  hakyll $ <span class="hljs-keyword">do</span>
+    match <span class="hljs-string">"posts/*"</span> $ <span class="hljs-keyword">do</span>
+      route $ niceRoute
+        compile $ getResourceBody
+            &gt;&gt;= withItemBody (unixFilter <span class="hljs-string">"node"</span> [<span class="hljs-string">"..\\highlight.js-cli\\bin\\hljs"</span>])
+            &gt;&gt;= saveSnapshot <span class="hljs-string">"post"</span>
+            &gt;&gt;= pandocCompile
+            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">"templates/post.html"</span>    postCtx
+            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">"templates/default.html"</span> postCtx
+            &gt;&gt;= relativizeUrls
+            &gt;&gt;= removeIndexHtml
+
+<span class="hljs-title">pandocCompile</span> :: <span class="hljs-type">Item</span> <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Compiler</span> (<span class="hljs-type">Item</span> <span class="hljs-type">String</span>)
+<span class="hljs-title">pandocCompile</span> item = return $ writePandoc $ readPandoc item
+</code></pre>
+
+And if you put the name of the language in the class like this:
+<pre><code class="html hljs"><span class="hljs-tag">&lt;<span class="hljs-title">pre</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">code</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"haskell"</span>&gt;</span>
+	main :: IO ()
+<span class="hljs-tag">&lt;/<span class="hljs-title">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">pre</span>&gt;</span>
+</code></pre>
+The <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> will pick it up and pass it to <a href="http://highlightjs.org/" target="_blank">highlight.js</a>.]]></summary>
+</entry>
+<entry>
     <title>custom domain site hosted on github</title>
     <link href="http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html" />
     <id>http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html</id>
@@ -23,7 +65,7 @@ To redirect the github page to your custom domain create a **CNAME** file in the
 
 It is handy to create a *one-click* publish shell script. Here is mine:
 
-<pre><code class="hljs"><span class="hljs-shebang">#!/bin/bash
+<pre><code class="bash hljs"><span class="hljs-shebang">#!/bin/bash
 </span>
 <span class="hljs-comment"># Create _publish directory if it doesn't exits</span>
 mkdir -p _publish
@@ -77,11 +119,11 @@ git push origin master
 
 First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:
 
-<pre><code class="hljs">dism.exe /<span class="hljs-constant">Online</span> /<span class="hljs-constant">Disable</span>-<span class="hljs-constant">Feature</span><span class="hljs-symbol">:Microsoft-Hyper-V</span></code></pre>
+<pre><code class="bash hljs">dism.exe /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
 
 In case you need to enable Hyper-V again, the following undoes the changes:
 
-<pre><code class="hljs">dism.exe /<span class="hljs-constant">Online</span> /<span class="hljs-constant">Enable</span>-<span class="hljs-constant">Feature</span><span class="hljs-symbol">:Microsoft-Hyper-V</span> /<span class="hljs-constant">All</span></code></pre>
+<pre><code class="bash hljs">dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
 
 Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.
 
@@ -123,29 +165,29 @@ My screen resolution (1920x1080) was not listed in the display settings, here's 
 
 1. Calculate VESA CVT mode lines:
 
-	<pre><code class="hljs">cvt 1920 1080</code></pre>
+	<pre><code class="bash hljs">cvt <span class="hljs-number">1920</span> <span class="hljs-number">1080</span></code></pre>
 
 1. Copy the output starting from after Modeline, and prepend it with <code>xrandr --newmode</code>, e.g.:
 
-	<pre><code class="hljs">xrandr <span class="hljs-subst">--</span>newmode <span class="hljs-string">"1920x1080_60.00"</span> <span class="hljs-number">173.00</span> <span class="hljs-number">1920</span> <span class="hljs-number">2048</span> <span class="hljs-number">2248</span> <span class="hljs-number">2576</span> <span class="hljs-number">1080</span> <span class="hljs-number">1083</span> <span class="hljs-number">1088</span> <span class="hljs-number">1120</span> <span class="hljs-attribute">-hsync</span> <span class="hljs-subst">+</span>vsync</code></pre>
+	<pre><code class="bash hljs">xrandr --newmode <span class="hljs-string">"1920x1080_60.00"</span> <span class="hljs-number">173.00</span> <span class="hljs-number">1920</span> <span class="hljs-number">2048</span> <span class="hljs-number">2248</span> <span class="hljs-number">2576</span> <span class="hljs-number">1080</span> <span class="hljs-number">1083</span> <span class="hljs-number">1088</span> <span class="hljs-number">1120</span> -hsync +vsync</code></pre>
 	
 1. and then: 
 
-	<pre><code class="hljs">xrandr --addmode Virtual1 <span class="hljs-string">"1920x1080_60.00"</span></code></pre>
+	<pre><code class="bash hljs">xrandr --addmode Virtual1 <span class="hljs-string">"1920x1080_60.00"</span></code></pre>
 
 1. Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.
 
 1. Stop Display Manager:
 
-	<pre><code class="hljs"><span class="hljs-built_in">sudo</span> service mdm stop</code></pre>
+	<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> service mdm stop</code></pre>
 
 1. create X configuration file:
 
-	<pre><code class="hljs"><span class="hljs-built_in">sudo</span> X -configure</code></pre>
+	<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> X -configure</code></pre>
 
 1. and start it again:
 
-	<pre><code class="hljs"><span class="hljs-built_in">sudo</span> service mdm start</code></pre>
+	<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> service mdm start</code></pre>
 
 1. Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.
 ]]></summary>
