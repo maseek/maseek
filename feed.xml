@@ -8,106 +8,57 @@
         <name>Tomas Zemanovic</name>
         <email>tzemanovic@gmail.com</email>
     </author>
-    <updated>2014-05-13T00:00:00Z</updated>
+    <updated>2014-05-10T00:00:00Z</updated>
     <entry>
-    <title>better code highlighting with hakyll</title>
-    <link href="http://maseek.codes/posts/better-code-highlighting-with-hakyll/index.html" />
-    <id>http://maseek.codes/posts/better-code-highlighting-with-hakyll/index.html</id>
-    <published>2014-05-13T00:00:00Z</published>
-    <updated>2014-05-13T00:00:00Z</updated>
-    <summary type="html"><![CDATA[If you want to highlight code syntax on your site there are couple of alternatives. I looked around and <a href="http://highlightjs.org/" target="_blank">highlight.js</a> seemed to be doing best. So I chose to load the JavaScript on the site and manually initialize it. Simple enough.
-
-But then I realized that I could do better. Because I am using <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> to generate static version of my site, I could run the highlighting code on my site during the build, thus avoiding slowing down the page with yet another JavaScript.
-
-To connect some pieces together I used <a href="http://nodejs.org/" target="_blank">node.js</a> to create a command that would run <a href="https://github.com/cheeriojs/cheerio" target="_blank">cheerio</a> (to get jQuery abilities) together with <a href="http://highlightjs.org/" target="_blank">highlight.js</a>. You can get the npm package <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> by running:
-
-<pre><code class="bash hljs">npm install highlight.js-cli
-</code></pre>
-
-There is a <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> function <a href="http://jaspervdj.be/hakyll/reference/Hakyll-Core-UnixFilter.html" target="_blank"><code>unixFilter</code></a> that can run a program as a <a href="http://jaspervdj.be/hakyll/tutorials/03-rules-routes-compilers.html#basic-compilers" target="_blank">compiler</a>. You have to run the <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> through node, pointing it to its source. Like this:
-
-<pre><code class="haskell hljs"><span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
-<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
-  hakyll $ <span class="hljs-keyword">do</span>
-    match <span class="hljs-string">"posts/*"</span> $ <span class="hljs-keyword">do</span>
-      route $ niceRoute
-        compile $ getResourceBody
-            &gt;&gt;= withItemBody (unixFilter <span class="hljs-string">"node"</span> [<span class="hljs-string">"..\\highlight.js-cli\\bin\\hljs"</span>])
-            &gt;&gt;= saveSnapshot <span class="hljs-string">"post"</span>
-            &gt;&gt;= pandocCompile
-            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">"templates/post.html"</span>    postCtx
-            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">"templates/default.html"</span> postCtx
-            &gt;&gt;= relativizeUrls
-            &gt;&gt;= removeIndexHtml
-
-<span class="hljs-title">pandocCompile</span> :: <span class="hljs-type">Item</span> <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Compiler</span> (<span class="hljs-type">Item</span> <span class="hljs-type">String</span>)
-<span class="hljs-title">pandocCompile</span> item = return $ writePandoc $ readPandoc item
-</code></pre>
-
-And if you put the name of the language in the class like this:
-<pre><code class="html hljs"><span class="hljs-tag">&lt;<span class="hljs-title">pre</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">code</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"haskell"</span>&gt;</span>
-	main :: IO ()
-<span class="hljs-tag">&lt;/<span class="hljs-title">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">pre</span>&gt;</span>
-</code></pre>
-The <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> will pick it up and pass it to <a href="http://highlightjs.org/" target="_blank">highlight.js</a>.]]></summary>
-</entry>
-<entry>
     <title>custom domain site hosted on github</title>
     <link href="http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html" />
     <id>http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html</id>
     <published>2014-05-10T00:00:00Z</published>
     <updated>2014-05-10T00:00:00Z</updated>
-    <summary type="html"><![CDATA[This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It's free, fast and reliable. You can only host static websites on github, but that's not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there's Jekyll's good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.
+    <summary type="html"><![CDATA[<p>This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It’s free, fast and reliable. You can only host static websites on github, but that’s not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there’s Jekyll’s good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.</p>
+<p>To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.</p>
+<p>To redirect the github page to your custom domain create a <strong>CNAME</strong> file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)</p>
+<p>It is handy to create a <em>one-click</em> publish shell script. Here is mine:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
 
-To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.
+<span class="co"># Create _publish directory if it doesn&#39;t exits</span>
+<span class="kw">mkdir</span> -p _publish
+<span class="kw">cd</span> _publish
 
-To redirect the github page to your custom domain create a **CNAME** file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)
+<span class="co"># Clone the giuthub page repo or pull the latest version</span>
+<span class="kw">if [</span> <span class="ot">!</span> <span class="ot">-d</span> <span class="st">&quot;maseek.github.io&quot;</span><span class="kw"> ]</span>; <span class="kw">then</span>
+    <span class="kw">git</span> clone https://github.com/maseek/maseek.github.io.git
+<span class="kw">else</span>
+    <span class="kw">git</span> pull origin master
+<span class="kw">fi</span>
 
-It is handy to create a *one-click* publish shell script. Here is mine:
+<span class="kw">cd</span> maseek.github.io
 
-<pre><code class="bash hljs"><span class="hljs-shebang">#!/bin/bash
-</span>
-<span class="hljs-comment"># Create _publish directory if it doesn't exits</span>
-mkdir -p _publish
-<span class="hljs-built_in">cd</span> _publish
+<span class="co"># Prepend the file names you want to keep in here with dot</span>
+<span class="kw">mv</span> CNAME .CNAME
+<span class="kw">mv</span> README.md .README.md
 
-<span class="hljs-comment"># Clone the giuthub page repo or pull the latest version</span>
-<span class="hljs-keyword">if</span> [ ! <span class="hljs-operator">-d</span> <span class="hljs-string">"maseek.github.io"</span> ]; <span class="hljs-keyword">then</span>
-    git clone https://github.com/maseek/maseek.github.io.git
-<span class="hljs-keyword">else</span>
-    git pull origin master
-<span class="hljs-keyword">fi</span>
+<span class="co"># Clean up</span>
+<span class="kw">rm</span> -rf *
 
-<span class="hljs-built_in">cd</span> maseek.github.io
+<span class="co"># Undo the name changes</span>
+<span class="kw">mv</span> .CNAME CNAME
+<span class="kw">mv</span> .README.md README.md
 
-<span class="hljs-comment"># Prepend the file names you want to keep in here with dot</span>
-mv CNAME .CNAME
-mv README.md .README.md
+<span class="co"># Hakyll by default generates site into _site directory</span>
+<span class="kw">cp</span> -rf ../../_site/* .
 
-<span class="hljs-comment"># Clean up</span>
-rm -rf *
+<span class="co"># Add all files to git</span>
+<span class="kw">git</span> add -A
 
-<span class="hljs-comment"># Undo the name changes</span>
-mv .CNAME CNAME
-mv .README.md README.md
+<span class="kw">echo</span> -n <span class="st">&quot;enter commit message: &quot;</span>
+<span class="kw">read</span> <span class="ot">msg</span>
+<span class="kw">git</span> commit -m <span class="st">&quot;</span><span class="ot">$msg</span><span class="st">&quot;</span>
 
-<span class="hljs-comment"># Hakyll by default generates site into _site directory</span>
-cp -rf ../../_site/* .
+<span class="co"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
+<span class="co"># git config --global core.askpass &quot;git-gui--askpass&quot;</span>
 
-<span class="hljs-comment"># Add all files to git</span>
-git add --all .
-git add -u :/
-
-<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"enter commit message: "</span>
-<span class="hljs-built_in">read</span> msg
-git commit -m <span class="hljs-string">"<span class="hljs-variable">$msg</span>"</span>
-
-<span class="hljs-comment"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
-<span class="hljs-comment"># git config --global core.askpass "git-gui--askpass"</span>
-
-git push origin master
-</code></pre>
-]]></summary>
+<span class="kw">git</span> push origin master</code></pre>]]></summary>
 </entry>
 <entry>
     <title>Linux Mint in Windows 8 via VMware Player</title>
@@ -115,82 +66,60 @@ git push origin master
     <id>http://maseek.codes/posts/linux-mint-in-windows-8-via-vmware-player/index.html</id>
     <published>2014-03-29T00:00:00Z</published>
     <updated>2014-03-29T00:00:00Z</updated>
-    <summary type="html"><![CDATA[For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.
-
-First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:
-
-<pre><code class="bash hljs">dism.exe /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
-
-In case you need to enable Hyper-V again, the following undoes the changes:
-
-<pre><code class="bash hljs">dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
-
-Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.
-
-1. Create a new virtual machine:
-
-	<img src="step-1.jpg" alt="step 1">
-
-1. Select location of the Linux image, I went for <a href="http://www.linuxmint.com/download.php" target="_blank">Linux Mint 16 Cinnamon 64-bit</a>:
-
-	<img src="step-2.jpg" alt="step 2">
-
-1. The version is Linux 3.x kernel 64-bit:
-
-	<img src="step-3.jpg" alt="step 3">
-
-1. Select where you want to store the virtual machine:
-
-	<img src="step-4.jpg" alt="step 4">
-
-1. Give it appropriate disk capacity, I gave mine only 8GB at fist, but ran out of it quite quickly (if you resize the capacity later on you will most-likely have to do some disk partitioning):
-
-	<img src="step-5.jpg" alt="step 5">
-
-1. Before you finish you will want to customize hardware:
-
-	<img src="step-6.jpg" alt="step 6">
-
-1. Select how much memory you want to use for your VM:
-
-	<img src="step-7.jpg" alt="step 7">
-
-1. Enable 3D graphics acceleration from the Display settings:
-
-	<img src="step-8.jpg" alt="step 8">
-	
-	And that's you ready to roll in Linux.
-	
-My screen resolution (1920x1080) was not listed in the display settings, here's how I fixed it.
-
-1. Calculate VESA CVT mode lines:
-
-	<pre><code class="bash hljs">cvt <span class="hljs-number">1920</span> <span class="hljs-number">1080</span></code></pre>
-
-1. Copy the output starting from after Modeline, and prepend it with <code>xrandr --newmode</code>, e.g.:
-
-	<pre><code class="bash hljs">xrandr --newmode <span class="hljs-string">"1920x1080_60.00"</span> <span class="hljs-number">173.00</span> <span class="hljs-number">1920</span> <span class="hljs-number">2048</span> <span class="hljs-number">2248</span> <span class="hljs-number">2576</span> <span class="hljs-number">1080</span> <span class="hljs-number">1083</span> <span class="hljs-number">1088</span> <span class="hljs-number">1120</span> -hsync +vsync</code></pre>
-	
-1. and then: 
-
-	<pre><code class="bash hljs">xrandr --addmode Virtual1 <span class="hljs-string">"1920x1080_60.00"</span></code></pre>
-
-1. Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.
-
-1. Stop Display Manager:
-
-	<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> service mdm stop</code></pre>
-
-1. create X configuration file:
-
-	<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> X -configure</code></pre>
-
-1. and start it again:
-
-	<pre><code class="bash hljs"><span class="hljs-built_in">sudo</span> service mdm start</code></pre>
-
-1. Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.
-]]></summary>
+    <summary type="html"><![CDATA[<p>For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.</p>
+<p>First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">dism.exe</span> /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
+<p>In case you need to enable Hyper-V again, the following undoes the changes:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">dism.exe</span> /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
+<p>Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Create a new virtual machine:</p>
+<p><img src="step-1.jpg" alt="step 1"/></p></li>
+<li><p>Select location of the Linux image, I went for <a href="http://www.linuxmint.com/download.php" target="_blank">Linux Mint 16 Cinnamon 64-bit</a>:</p>
+<p><img src="step-2.jpg" alt="step 2"/></p></li>
+<li><p>The version is Linux 3.x kernel 64-bit:</p>
+<p><img src="step-3.jpg" alt="step 3"/></p></li>
+<li><p>Select where you want to store the virtual machine:</p>
+<p><img src="step-4.jpg" alt="step 4"/></p></li>
+<li><p>Give it appropriate disk capacity, I gave mine only 8GB at fist, but ran out of it quite quickly (if you resize the capacity later on you will most-likely have to do some disk partitioning):</p>
+<p><img src="step-5.jpg" alt="step 5"/></p></li>
+<li><p>Before you finish you will want to customize hardware:</p>
+<p><img src="step-6.jpg" alt="step 6"/></p></li>
+<li><p>Select how much memory you want to use for your VM:</p>
+<p><img src="step-7.jpg" alt="step 7"/></p></li>
+<li><p>Enable 3D graphics acceleration from the Display settings:</p>
+<p><img src="step-8.jpg" alt="step 8"/></p>
+<p>And that’s you ready to roll in Linux.</p></li>
+</ol>
+<p>My screen resolution (1920x1080) was not listed in the display settings, here’s how I fixed it.</p>
+<ol style="list-style-type: decimal">
+<li>Calculate VESA CVT mode lines:</li>
+</ol>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cvt</span> 1920 1080</code></pre>
+<ol style="list-style-type: decimal">
+<li>Copy the output starting from after Modeline, and prepend it with <code>xrandr –newmode</code>, e.g.:</li>
+</ol>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">xrandr</span> --newmode <span class="st">&quot;1920x1080_60.00&quot;</span> 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</code></pre>
+<ol style="list-style-type: decimal">
+<li>and then:</li>
+</ol>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">xrandr</span> --addmode Virtual1 <span class="st">&quot;1920x1080_60.00&quot;</span></code></pre>
+<ol style="list-style-type: decimal">
+<li><p>Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.</p></li>
+<li><p>Stop Display Manager:</p></li>
+</ol>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> service mdm stop</code></pre>
+<ol style="list-style-type: decimal">
+<li>create X configuration file:</li>
+</ol>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> X -configure</code></pre>
+<ol style="list-style-type: decimal">
+<li>and start it again:</li>
+</ol>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> service mdm start</code></pre>
+<ol style="list-style-type: decimal">
+<li>Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.</li>
+</ol>]]></summary>
 </entry>
 
 </feed>

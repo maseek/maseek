@@ -54,50 +54,46 @@
 <p>To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.</p>
 <p>To redirect the github page to your custom domain create a <strong>CNAME</strong> file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)</p>
 <p>It is handy to create a <em>one-click</em> publish shell script. Here is mine:</p>
-<pre><code class="bash hljs"><span class="hljs-shebang">#!/bin/bash
-</span>
-<span class="hljs-comment"># Create _publish directory if it doesn't exits</span>
-mkdir -p _publish
-<span class="hljs-built_in">cd</span> _publish
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
 
-<span class="hljs-comment"># Clone the giuthub page repo or pull the latest version</span>
-<span class="hljs-keyword">if</span> [ ! <span class="hljs-operator">-d</span> <span class="hljs-string">&quot;maseek.github.io&quot;</span> ]; <span class="hljs-keyword">then</span>
-    git clone https://github.com/maseek/maseek.github.io.git
-<span class="hljs-keyword">else</span>
-    git pull origin master
-<span class="hljs-keyword">fi</span>
+<span class="co"># Create _publish directory if it doesn't exits</span>
+<span class="kw">mkdir</span> -p _publish
+<span class="kw">cd</span> _publish
 
-<span class="hljs-built_in">cd</span> maseek.github.io
+<span class="co"># Clone the giuthub page repo or pull the latest version</span>
+<span class="kw">if [</span> <span class="ot">!</span> <span class="ot">-d</span> <span class="st">&quot;maseek.github.io&quot;</span><span class="kw"> ]</span>; <span class="kw">then</span>
+    <span class="kw">git</span> clone https://github.com/maseek/maseek.github.io.git
+<span class="kw">else</span>
+    <span class="kw">git</span> pull origin master
+<span class="kw">fi</span>
 
-<span class="hljs-comment"># Prepend the file names you want to keep in here with dot</span>
-mv CNAME .CNAME
-mv README.md .README.md
+<span class="kw">cd</span> maseek.github.io
 
-<span class="hljs-comment"># Clean up</span>
-rm -rf *
+<span class="co"># Prepend the file names you want to keep in here with dot</span>
+<span class="kw">mv</span> CNAME .CNAME
+<span class="kw">mv</span> README.md .README.md
 
-<span class="hljs-comment"># Undo the name changes</span>
-mv .CNAME CNAME
-mv .README.md README.md
+<span class="co"># Clean up</span>
+<span class="kw">rm</span> -rf *
 
-<span class="hljs-comment"># Hakyll by default generates site into _site directory</span>
-cp -rf ../../_site/* .
+<span class="co"># Undo the name changes</span>
+<span class="kw">mv</span> .CNAME CNAME
+<span class="kw">mv</span> .README.md README.md
 
-<span class="hljs-comment"># Add all files to git</span>
-git add --all .
-git add -u :/
+<span class="co"># Hakyll by default generates site into _site directory</span>
+<span class="kw">cp</span> -rf ../../_site/* .
 
-<span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;enter commit message: &quot;</span>
-<span class="hljs-built_in">read</span> msg
-git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$msg</span>&quot;</span>
+<span class="co"># Add all files to git</span>
+<span class="kw">git</span> add -A
 
-<span class="hljs-comment"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
-<span class="hljs-comment"># git config --global core.askpass &quot;git-gui--askpass&quot;</span>
+<span class="kw">echo</span> -n <span class="st">&quot;enter commit message: &quot;</span>
+<span class="kw">read</span> <span class="ot">msg</span>
+<span class="kw">git</span> commit -m <span class="st">&quot;</span><span class="ot">$msg</span><span class="st">&quot;</span>
 
-git push origin master
-</code></pre>
+<span class="co"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
+<span class="co"># git config --global core.askpass &quot;git-gui--askpass&quot;</span>
 
-
+<span class="kw">git</span> push origin master</code></pre>
 </div>
 
 <div id="sociallinks" class="social-share tooltips">

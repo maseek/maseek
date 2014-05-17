@@ -53,42 +53,39 @@
 	<p>If you want to highlight code syntax on your site there are couple of alternatives. I looked around and <a href="http://highlightjs.org/" target="_blank">highlight.js</a> seemed to be doing best. So I chose to load the JavaScript on the site and manually initialize it. Simple enough.</p>
 <p>But then I realized that I could do better. Because I am using <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> to generate static version of my site, I could run the highlighting code on my site during the build, thus avoiding slowing down the page with yet another JavaScript.</p>
 <p>To connect some pieces together I used <a href="http://nodejs.org/" target="_blank">node.js</a> to create a command that would run <a href="https://github.com/cheeriojs/cheerio" target="_blank">cheerio</a> (to get jQuery abilities) together with <a href="http://highlightjs.org/" target="_blank">highlight.js</a>. You can get the npm package <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> by running:</p>
-<pre><code class="bash hljs">npm install highlight.js-cli
+<pre><code class="bash">npm install highlight.js-cli
 </code></pre>
 
 <p>There is a <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a> function <a href="http://jaspervdj.be/hakyll/reference/Hakyll-Core-UnixFilter.html" target="_blank"><code>unixFilter</code></a> that can run a program as a <a href="http://jaspervdj.be/hakyll/tutorials/03-rules-routes-compilers.html#basic-compilers" target="_blank">compiler</a>. You have to run the <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> through node, pointing it to its source. Like this:</p>
-<pre><code class="haskell hljs"><span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
-<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
-  hakyll $ <span class="hljs-keyword">do</span>
-    match <span class="hljs-string">&quot;posts/*&quot;</span> $ <span class="hljs-keyword">do</span>
-      route $ niceRoute
-        compile $ getResourceBody
-            &gt;&gt;= withItemBody (unixFilter <span class="hljs-string">&quot;node&quot;</span> [<span class="hljs-string">&quot;..\\highlight.js-cli\\bin\\hljs&quot;</span>])
-            &gt;&gt;= saveSnapshot <span class="hljs-string">&quot;post&quot;</span>
-            &gt;&gt;= pandocCompile
-            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">&quot;templates/post.html&quot;</span>    postCtx
-            &gt;&gt;= loadAndApplyTemplate <span class="hljs-string">&quot;templates/default.html&quot;</span> postCtx
-            &gt;&gt;= relativizeUrls
-            &gt;&gt;= removeIndexHtml
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+  hakyll <span class="fu">$</span> <span class="kw">do</span>
+    match <span class="st">&quot;posts/*&quot;</span> <span class="fu">$</span> <span class="kw">do</span>
+      route <span class="fu">$</span> niceRoute
+        compile <span class="fu">$</span> getResourceBody
+            <span class="fu">&gt;&gt;=</span> withItemBody (unixFilter <span class="st">&quot;node&quot;</span> [<span class="st">&quot;..\\highlight.js-cli\\bin\\hljs&quot;</span>])
+            <span class="fu">&gt;&gt;=</span> saveSnapshot <span class="st">&quot;post&quot;</span>
+            <span class="fu">&gt;&gt;=</span> pandocCompile
+            <span class="fu">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span>    postCtx
+            <span class="fu">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> postCtx
+            <span class="fu">&gt;&gt;=</span> relativizeUrls
+            <span class="fu">&gt;&gt;=</span> removeIndexHtml
 
-<span class="hljs-title">pandocCompile</span> :: <span class="hljs-type">Item</span> <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Compiler</span> (<span class="hljs-type">Item</span> <span class="hljs-type">String</span>)
-<span class="hljs-title">pandocCompile</span> item = return $ writePandoc $ readPandoc item
-</code></pre>
-
-And if you put the name of the language in the class like this:
-<pre><code class="html hljs"><span class="hljs-tag">&lt;<span class="hljs-title">pre</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">code</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;haskell&quot;</span>&gt;</span>
+<span class="ot">pandocCompile ::</span> <span class="dt">Item</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)
+pandocCompile item <span class="fu">=</span> return <span class="fu">$</span> writePandoc <span class="fu">$</span> readPandoc item</code></pre>
+<p>And if you put the name of the language in the class like this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;pre&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;haskell&quot;</span><span class="kw">&gt;</span>
 	main :: IO ()
-<span class="hljs-tag">&lt;/<span class="hljs-title">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">pre</span>&gt;</span>
-</code></pre>
+<span class="kw">&lt;/code&gt;&lt;/pre&gt;</span></code></pre>
 <p>The <a href="https://www.npmjs.org/package/highlight.js-cli" target="_blank">highlight.js-cli</a> will pick it up and pass it to <a href="http://highlightjs.org/" target="_blank">highlight.js</a>.</p>
 </div>
 
 <div id="sociallinks" class="social-share tooltips">
     <a href="../../" class="red" data-toggle="tooltip" data-placement="top" title data-original-title="back"><i class="fa fa-arrow-circle-o-left"></i></a>
-    <a href="https://twitter.com/home?status=/posts/better-code-highlighting-with-hakyll/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="tweet"><i class="fa fa-twitter"></i></a>
-    <a href="http://www.facebook.com/sharer/sharer.php?u=/posts/better-code-highlighting-with-hakyll/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on facebook"><i class="fa fa-facebook"></i></a>
-    <a href="https://plus.google.com/share?url=/posts/better-code-highlighting-with-hakyll/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on google+"><i class="fa fa-google-plus"></i></a>
-    <a href="https://github.com/maseek/maseek-codes/blob/master/src/posts/better-code-highlighting-with-hakyll.markdown" class="red" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="edit on github"><i class="fa fa-github-alt"></i></a>
+    <a href="https://twitter.com/home?status=/posts/better/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="tweet"><i class="fa fa-twitter"></i></a>
+    <a href="http://www.facebook.com/sharer/sharer.php?u=/posts/better/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on facebook"><i class="fa fa-facebook"></i></a>
+    <a href="https://plus.google.com/share?url=/posts/better/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="share on google+"><i class="fa fa-google-plus"></i></a>
+    <a href="https://github.com/maseek/maseek-codes/blob/master/src/posts/better.markdown" class="red" target="_blank" data-toggle="tooltip" data-placement="top" title data-original-title="edit on github"><i class="fa fa-github-alt"></i></a>
 </div>
 <script>
 (function(){window.addEventListener("DOMContentLoaded",function(){
@@ -97,7 +94,7 @@ And if you put the name of the language in the class like this:
                                     .getElementsByTagName('a');
                                     for (var i=0;i!=links.length;i++){
                                     links[i].setAttribute("href",
-                                        links[i].href.replace('/posts/better-code-highlighting-with-hakyll/index.html',url));}})})();
+                                        links[i].href.replace('/posts/better/index.html',url));}})})();
 </script>
 
 <div id="disqus_thread"></div>
