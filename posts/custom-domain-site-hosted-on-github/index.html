@@ -84,7 +84,8 @@
 <span class="kw">cp</span> -rf ../../_site/* .
 
 <span class="co"># Add all files to git</span>
-<span class="kw">git</span> add -A
+<span class="kw">git</span> add --all :/
+<span class="kw">git</span> add -u :/
 
 <span class="kw">echo</span> -n <span class="st">&quot;enter commit message: &quot;</span>
 <span class="kw">read</span> <span class="ot">msg</span>
