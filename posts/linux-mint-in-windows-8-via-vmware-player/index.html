@@ -52,9 +52,9 @@
 <div class="post-body">
 	<p>For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.</p>
 <p>First of all you need to disable Hyper-V to be able to install VMware Player. To do that run the following command from an elevated command prompt:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">dism.exe</span> /Online /Disable-Feature:Microsoft-Hyper-V</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">dism.exe</span> /Online /Disable-Feature:Microsoft-Hyper-V</code></pre></div>
 <p>In case you need to enable Hyper-V again, the following undoes the changes:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">dism.exe</span> /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">dism.exe</span> /Online /Enable-Feature:Microsoft-Hyper-V /All</code></pre></div>
 <p>Next, install and run <a href="https://my.vmware.com/web/vmware/free" target="_blank">VMware Player</a>.</p>
 <ol style="list-style-type: decimal">
 <li><p>Create a new virtual machine:</p>
@@ -79,28 +79,28 @@
 <ol style="list-style-type: decimal">
 <li>Calculate VESA CVT mode lines:</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cvt</span> 1920 1080</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">cvt</span> 1920 1080</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Copy the output starting from after Modeline, and prepend it with <code>xrandr –newmode</code>, e.g.:</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">xrandr</span> --newmode <span class="st">&quot;1920x1080_60.00&quot;</span> 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">xrandr</span> --newmode <span class="st">&quot;1920x1080_60.00&quot;</span> 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>and then:</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">xrandr</span> --addmode Virtual1 <span class="st">&quot;1920x1080_60.00&quot;</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">xrandr</span> --addmode Virtual1 <span class="st">&quot;1920x1080_60.00&quot;</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li><p>Switch to console mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F1</kbd> and log in.</p></li>
 <li><p>Stop Display Manager:</p></li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> service mdm stop</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> service mdm stop</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>create X configuration file:</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> X -configure</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> X -configure</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>and start it again:</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> service mdm start</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> service mdm start</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Switch to back to the desktop mode using <kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>F7</kbd>.</li>
 </ol>
@@ -146,7 +146,7 @@ var disqus_shortname = 'maseek';
                         <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
                 </span></span>
             </a>
-            <a class="social" href="https://twitter.com/maseek" target="_blank"><span class="symbol">
+            <a class="social" href="https://twitter.com/taebleslol" target="_blank"><span class="symbol">
                     <span class="symbol"><span class="zoom fa-stack fa-lg">
                             <i class="fa fa-square fa-stack-2x"></i>
                             <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
@@ -164,7 +164,7 @@ var disqus_shortname = 'maseek';
                             <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
                     </span></span>
             </span></a>
-            <a class="social" href="https://www.linkedin.com/pub/tomas-zemanovic/40/807/196" target="_blank"><span class="symbol">
+            <a class="social" href="https://au.linkedin.com/in/tomáš-zemanovič-19680740" target="_blank"><span class="symbol">
                     <span class="symbol"><span class="zoom fa-stack fa-lg">
                             <i class="fa fa-square fa-stack-2x"></i>
                             <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>

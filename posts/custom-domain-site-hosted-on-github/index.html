@@ -54,47 +54,47 @@
 <p>To redirect your custom domain to the github page, you need to lookup the DNS for A Record IP, using either <code>dig</code> command or <a href="http://www.dnsqueries.com/en/dns_lookup.php" target="_blank">online DNS lookup tool</a>. Then use the IP address you found to create A Record for your domain. Consult the <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages" target="_blank">github documentation</a> if you need more details.</p>
 <p>To redirect the github page to your custom domain create a <strong>CNAME</strong> file in the github pages repo and put your domain name in it (e.g. <a href="http://maseek.codes">maseek.codes</a>)</p>
 <p>It is handy to create a <em>one-click</em> publish shell script. Here is mine:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
 
 <span class="co"># Create _publish directory if it doesn't exits</span>
-<span class="kw">mkdir</span> -p _publish
-<span class="kw">cd</span> _publish
+<span class="fu">mkdir</span> -p _publish
+<span class="bu">cd</span> _publish
 
 <span class="co"># Clone the giuthub page repo or pull the latest version</span>
-<span class="kw">if [</span> <span class="ot">!</span> <span class="ot">-d</span> <span class="st">&quot;maseek.github.io&quot;</span><span class="kw"> ]</span>; <span class="kw">then</span>
-    <span class="kw">git</span> clone https://github.com/maseek/maseek.github.io.git
+<span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-d</span> <span class="st">&quot;maseek.github.io&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
+    <span class="fu">git</span> clone https://github.com/maseek/maseek.github.io.git
 <span class="kw">else</span>
-    <span class="kw">git</span> pull origin master
+    <span class="fu">git</span> pull origin master
 <span class="kw">fi</span>
 
-<span class="kw">cd</span> maseek.github.io
+<span class="bu">cd</span> maseek.github.io
 
 <span class="co"># Prepend the file names you want to keep in here with dot</span>
-<span class="kw">mv</span> CNAME .CNAME
-<span class="kw">mv</span> README.md .README.md
+<span class="fu">mv</span> CNAME .CNAME
+<span class="fu">mv</span> README.md .README.md
 
 <span class="co"># Clean up</span>
-<span class="kw">rm</span> -rf *
+<span class="fu">rm</span> -rf *
 
 <span class="co"># Undo the name changes</span>
-<span class="kw">mv</span> .CNAME CNAME
-<span class="kw">mv</span> .README.md README.md
+<span class="fu">mv</span> .CNAME CNAME
+<span class="fu">mv</span> .README.md README.md
 
 <span class="co"># Hakyll by default generates site into _site directory</span>
-<span class="kw">cp</span> -rf ../../_site/* .
+<span class="fu">cp</span> -rf ../../_site/* .
 
 <span class="co"># Add all files to git</span>
-<span class="kw">git</span> add --all :/
-<span class="kw">git</span> add -u :/
+<span class="fu">git</span> add --all :/
+<span class="fu">git</span> add -u :/
 
-<span class="kw">echo</span> -n <span class="st">&quot;enter commit message: &quot;</span>
-<span class="kw">read</span> <span class="ot">msg</span>
-<span class="kw">git</span> commit -m <span class="st">&quot;</span><span class="ot">$msg</span><span class="st">&quot;</span>
+<span class="bu">echo</span> -n <span class="st">&quot;enter commit message: &quot;</span>
+<span class="bu">read</span> <span class="va">msg</span>
+<span class="fu">git</span> commit -m <span class="st">&quot;</span><span class="va">$msg</span><span class="st">&quot;</span>
 
 <span class="co"># If you are using cygwin, git push command will get stuck, so use the following command first to cofigure git to ask for password in a popup window</span>
 <span class="co"># git config --global core.askpass &quot;git-gui--askpass&quot;</span>
 
-<span class="kw">git</span> push origin master</code></pre>
+<span class="fu">git</span> push origin master</code></pre></div>
 </div>
 
 <div id="sociallinks" class="social-share tooltips">
@@ -137,7 +137,7 @@ var disqus_shortname = 'maseek';
                         <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
                 </span></span>
             </a>
-            <a class="social" href="https://twitter.com/maseek" target="_blank"><span class="symbol">
+            <a class="social" href="https://twitter.com/taebleslol" target="_blank"><span class="symbol">
                     <span class="symbol"><span class="zoom fa-stack fa-lg">
                             <i class="fa fa-square fa-stack-2x"></i>
                             <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
@@ -155,7 +155,7 @@ var disqus_shortname = 'maseek';
                             <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
                     </span></span>
             </span></a>
-            <a class="social" href="https://www.linkedin.com/pub/tomas-zemanovic/40/807/196" target="_blank"><span class="symbol">
+            <a class="social" href="https://au.linkedin.com/in/tomáš-zemanovič-19680740" target="_blank"><span class="symbol">
                     <span class="symbol"><span class="zoom fa-stack fa-lg">
                             <i class="fa fa-square fa-stack-2x"></i>
                             <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
