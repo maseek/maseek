@@ -9,7 +9,7 @@
 
 <link rel="shortcut icon" href="./favicon.ico">
 
-<title>tzemanovic :: l11session-set-mobile</title>
+<title>tzemanovic :: l11session-get-staging</title>
 
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Playfair+Display+SC:400,700" rel="stylesheet" type="text/css">
 <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -44,9 +44,23 @@
 </div>
 
 <div class="container" role="main">
-    <img src="//taebles.local:8000/usertest/set-session/ac803909cb4b37be1e71b3f293f88396f7e96118" style="display:none;" />
+    get session - check console
 
-set session
+<script type="text/javascript">
+    var callback = function(event) {
+        var data = JSON.parse(event.data);
+        if (data.fromLoop11) {
+            var text = document.createElement('span');
+            text.innerText = data.session;
+            document.body.appendChild(text);
+        }
+    };
+    window.addEventListener('message', callback, false);
+    var elem = document.createElement('iframe');
+    elem.src = '//www.staging.loop11.com/usertest/get-session';
+    elem.style.display = 'none';
+    document.body.appendChild(elem);
+</script>
 
 
     <div class="footer">
