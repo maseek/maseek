@@ -8,34 +8,8 @@
         <name>Tomas Zemanovic</name>
         <email>tzemanovic@gmail.com</email>
     </author>
-    <updated>2017-11-11T00:00:00Z</updated>
+    <updated>2014-05-10T00:00:00Z</updated>
     <entry>
-    <title>first-class language constructs vs. special syntax</title>
-    <link href="http://maseek.codes/posts/special-syntax/index.html" />
-    <id>http://maseek.codes/posts/special-syntax/index.html</id>
-    <published>2017-11-11T00:00:00Z</published>
-    <updated>2017-11-11T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<p>While working on an iOS project written in Swift, XCode has offered to migrate my code Swift 4. Having low expectations from XCode, I anticipated problems. I hit build…</p>
-<p>What’s that, Swift Compiler Errors? Let’s take a look.</p>
-<blockquote>
-<p>‘subtracting’ is unavailable: Please use operators instead.</p>
-</blockquote>
-<p>Here’s the offending line:</p>
-<pre class="swift"><code>if let yMove = lastYScrollOffset?.subtracting(offset.y),
-   yMove &lt; 0 {
-      ...</code></pre>
-<p>The <code>yScrollOffset</code> in here is a ‘magical’ optional value. Magical in a sense that there is a lot of special syntax built into the language to support it, Swift’s “modern approach to safety”, such as the <code>if let</code> binding used above. I remember deciding to call the operator by its function name deliberately to be able to call it on the optional value inside this conditional binding. I couldn’t find any other way to do the same with the operator and now this function is “unavailable”, whatever that means ¯\<em>(ツ)</em>/¯.</p>
-<p>Swift is surely a step-up from Objective-C, but it feels like its approach of mimicking functional programming concepts, while trying so hard to be different, is futile to say at least. I can’t help but compare it with my preferred ML-like languages, such as Haskell. In Haskell, optional type <code>Maybe</code> doesn’t need any magical syntax. It suffices that it’s instance of <code>Functor</code> type class, which gives you a way to work with it that is common to all the instances of <code>Functor</code> (there are many). Thusly, you can use operators on optional types with little hassle. Imagine:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">case</span> fmap (\lastY <span class="ot">-&gt;</span> lastY <span class="fu">-</span> y offset) lastYScrollOffset <span class="kw">of</span>
-    <span class="dt">Just</span> yMove <span class="fu">|</span> yMove <span class="fu">&lt;</span> <span class="dv">0</span> <span class="ot">-&gt;</span> 
-        <span class="fu">...</span></code></pre></div>
-<p>This may seem like a trivial issue, but I run into it many times over in many different languages that have some special syntax for things that can be elegantly solved with a good type system. The attention that is required on language’s peculiarities is attention taken away from the thing that I’m building.</p>
-<blockquote>
-<p>Simple &gt; Complex &gt; Complicated</p>
-</blockquote>
-<p>Simple is better than complex, complex is better than complicated. When it comes to programming languages, Haskell is a perfect example of simple first-class language constructs, while special syntax constructs found in many other languages usually push you toward the other side of the spectrum, especially once you try to combine them.</p>]]></summary>
-</entry>
-<entry>
     <title>custom domain site hosted on github</title>
     <link href="http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html" />
     <id>http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html</id>
