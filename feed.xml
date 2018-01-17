@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>maseek.codes blog</title>
-    <link href="http://maseek.codes/feed.xml" rel="self" />
-    <link href="http://maseek.codes" />
-    <id>http://maseek.codes/feed.xml</id>
+    <title>tzemanovic.github.io blog</title>
+    <link href="https://tzemanovic.github.io/feed.xml" rel="self" />
+    <link href="https://tzemanovic.github.io" />
+    <id>https://tzemanovic.github.io/feed.xml</id>
     <author>
         <name>Tomas Zemanovic</name>
         <email>tzemanovic@gmail.com</email>
@@ -11,8 +11,8 @@
     <updated>2014-05-10T00:00:00Z</updated>
     <entry>
     <title>custom domain site hosted on github</title>
-    <link href="http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html" />
-    <id>http://maseek.codes/posts/custom-domain-site-hosted-on-github/index.html</id>
+    <link href="https://tzemanovic.github.io/posts/custom-domain-site-hosted-on-github/index.html" />
+    <id>https://tzemanovic.github.io/posts/custom-domain-site-hosted-on-github/index.html</id>
     <published>2014-05-10T00:00:00Z</published>
     <updated>2014-05-10T00:00:00Z</updated>
     <summary type="html"><![CDATA[<p>This website is hosted on <a href="https://github.com/maseek/maseek-codes" target="_blank">github</a>. It’s free, fast and reliable. You can only host static websites on github, but that’s not an issue if you use static site generator like <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, or if you, like me, prefer using Haskell, there’s Jekyll’s good twin <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>.</p>
@@ -63,8 +63,8 @@
 </entry>
 <entry>
     <title>Linux Mint in Windows 8 via VMware Player</title>
-    <link href="http://maseek.codes/posts/linux-mint-in-windows-8-via-vmware-player/index.html" />
-    <id>http://maseek.codes/posts/linux-mint-in-windows-8-via-vmware-player/index.html</id>
+    <link href="https://tzemanovic.github.io/posts/linux-mint-in-windows-8-via-vmware-player/index.html" />
+    <id>https://tzemanovic.github.io/posts/linux-mint-in-windows-8-via-vmware-player/index.html</id>
     <published>2014-03-29T00:00:00Z</published>
     <updated>2014-03-29T00:00:00Z</updated>
     <summary type="html"><![CDATA[<p>For a while I have been trying to emulate the *nix terminal in Windows 8 using cygwin, but I wanted to get the full experience, so I decided to run Linux Mint in VMware Player. The setup instructions follow.</p>
