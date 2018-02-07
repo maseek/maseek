@@ -39,7 +39,17 @@ function test() {
     return "\"" + value + "\"";
   }
 
-  new Fingerprint2().get(function(hash, components){
+  var options = {
+    // fonts are too unreliable in Safari
+    excludeJsFonts: true,
+    excludeFlashFonts: true,
+    // anything relating to monitor (for cases where users switch to different monitor)
+    excludeColorDepth: true,
+    excludePixelRatio: true,
+    excludeScreenResolution: true,
+    excludeAvailableScreenResolution: true
+  };
+  new Fingerprint2(options).get(function(hash, components){
     console.log("fingerprint hash", hash); //a hash, representing your device fingerprint
     console.log("fingerprint components", components); // an array of FP components
     console.log("components serialized", JSON.stringify(components)); // an array of FP components
