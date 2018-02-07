@@ -41,7 +41,7 @@ function test() {
 
   new Fingerprint2().get(function(hash, components){
     console.log("fingerprint hash", hash); //a hash, representing your device fingerprint
-    // console.log(components); // an array of FP components
+    console.log("fingerprint components", components); // an array of FP components
 
     getTenere(hash, function(response) {
       var test1 = "1. read should be null";
