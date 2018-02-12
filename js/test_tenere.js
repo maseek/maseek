@@ -13,11 +13,16 @@ function test() {
 
   function getTenere(hash, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', getTenereUrl(hash), true);
     xhr.responseType = 'json';
+    xhr.open('GET', getTenereUrl(hash), true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
-        callback(xhr.response);
+        var response = xhr.response;
+        if (typeof response === "string") {
+          callback(JSON.parse(response));
+        } else {
+          callback(xhr.response);
+        }
       }
     };
     xhr.send();
@@ -25,11 +30,16 @@ function test() {
 
   function setTenere(hash, value, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', setTenereUrl(hash, value), true);
     xhr.responseType = 'json';
+    xhr.open('GET', setTenereUrl(hash, value), true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
-        callback(xhr.response);
+        var response = xhr.response;
+        if (typeof response === "string") {
+          callback(JSON.parse(response));
+        } else {
+          callback(xhr.response);
+        }
       }
     };
     xhr.send();
