@@ -13,8 +13,8 @@ function test() {
 
   function getTenere(hash, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
     xhr.open('GET', getTenereUrl(hash), true);
+    xhr.responseType = 'json';
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         var response = xhr.response;
@@ -30,8 +30,8 @@ function test() {
 
   function setTenere(hash, value, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
     xhr.open('GET', setTenereUrl(hash, value), true);
+    xhr.responseType = 'json';
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         var response = xhr.response;
