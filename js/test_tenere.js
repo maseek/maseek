@@ -16,7 +16,11 @@ function test() {
       if (xhr.readyState == 4) {
         var response = xhr.response;
         if (typeof response === "string") {
-          callback(JSON.parse(response));
+          if (response === "") {
+            callback(null);
+          } else {
+            callback(JSON.parse(response));
+          }
         } else {
           callback(xhr.response);
         }
