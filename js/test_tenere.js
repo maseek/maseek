@@ -14,7 +14,6 @@ function test() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', getTenereUrl(hash), true);
     xhr.responseType = 'json';
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         var response = xhr.response;
@@ -36,7 +35,6 @@ function test() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', setTenereUrl(hash, value), true);
     xhr.responseType = 'json';
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         var response = xhr.response;
