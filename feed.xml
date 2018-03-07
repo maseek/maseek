@@ -10,7 +10,7 @@
     </author>
     <updated>2018-03-06T00:00:00Z</updated>
     <entry>
-    <title>one year of elm in production</title>
+    <title>One year of Elm in production</title>
     <link href="https://tzemanovic.github.io/posts/one-year-of-elm-in-production/index.html" />
     <id>https://tzemanovic.github.io/posts/one-year-of-elm-in-production/index.html</id>
     <published>2018-03-06T00:00:00Z</published>
@@ -107,7 +107,7 @@ general purpose popular language for compilers
 <p>So far, Elm’s simple yet powerful design has helped us to stay focused on our goal of building a great product and we expect that the payoff will be even greater in the long run. At the moment, we have about 16k Elm lines of code in production, steadily translating pleasant development experience into pleasant user experience and we have more on their way.</p>]]></summary>
 </entry>
 <entry>
-    <title>custom domain site hosted on github</title>
+    <title>Custom domain site hosted on Github</title>
     <link href="https://tzemanovic.github.io/posts/custom-domain-site-hosted-on-github/index.html" />
     <id>https://tzemanovic.github.io/posts/custom-domain-site-hosted-on-github/index.html</id>
     <published>2014-05-10T00:00:00Z</published>
