@@ -35,7 +35,7 @@
 <p>Cool, you got me, but…</p>
 <h2 id="where-do-you-start">Where do you start?</h2>
 <div class="figure">
-<p><img src="../../images/elm-grove.jpg" alt="Welcome to Elm" style="width: 100%"></p>
+<p><img src="/images/elm-grove.jpg" alt="Welcome to Elm" style="width: 100%"></p>
 </div>
 <p>Of course, not everyone learns the same way. As a general recommendation I would say:</p>
 <p>Try not to learn too many things at once, keep things simple. This is especially important if you come to FP <strong>with prior experience</strong> from imperative languages, which doesn’t translate well into FP concepts. You might have heard functional programmers say that when you start, you will have to unlearn things, and this is what they’re referring to. Honestly, you will need patience, because everything might seem slow at first. That’s okay, don’t give up and keep at it!</p>
