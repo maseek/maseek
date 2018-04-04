@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Tomáš Zemanovič">  <meta name="keywords" content="haskell, yesod, web, server, rest, sql, real, world, example" />
+ 
+  <link rel="shortcut icon" href="../../favicon.ico">
+
+  <title>Tomáš Zemanovič :: RealWorld example with Haskell Yesod - Part 1</title>
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans|Oswald:300" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.min.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body role="document">
+  <div class="navigation" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- <a class="navbar-brand" href="/index.html"><img src="/images/logo.png" alt="maseek" /></a> -->
+        <a class="navbar-brand" href="../../">
+          <img class="baboon" src="../../images/baboon.gif" />
+          <span class="my-name">Tomáš
+            <br />Zemanovič</span>
+        </a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="../../">blog</a></li>
+          <li><a href="../../projects">projects</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" role="main">
+    <h1>RealWorld example with Haskell Yesod - Part 1</h1>
+<div class="info">
+    <i class="fa fa-calendar"></i> March 29, 2018
+</div>
+<div class="post-body">
+	<p>Assumes that (stack)[http://haskellstack.org/] is installed.</p>
+<ul>
+<li>create new Yesod app using stack template <code>stack new app yesod-sqlite</code></li>
+</ul>
+</div>
+
+<div id="sociallinks" class="social-share tooltips">
+    <a href="../../" class="red" data-toggle="tooltip" data-placement="top" title="back"><i class="fa fa-arrow-circle-o-left"></i></a>
+    <a href="https://twitter.com/home?status=/posts/realworld-haskell-yesod-part-1/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title="tweet"><i class="fa fa-twitter"></i></a>
+    <a href="http://www.facebook.com/sharer/sharer.php?u=/posts/realworld-haskell-yesod-part-1/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title="share on facebook"><i class="fa fa-facebook"></i></a>
+    <a href="https://plus.google.com/share?url=/posts/realworld-haskell-yesod-part-1/index.html" target="_blank" data-toggle="tooltip" data-placement="top" title="share on google+"><i class="fa fa-google-plus"></i></a>
+    <a href="https://github.com/tzemanovic/tzemanovic/blob/master/src/posts/realworld-haskell-yesod-part-1.md" class="red" target="_blank" data-toggle="tooltip" data-placement="top" title="edit on github"><i class="fa fa-github-alt"></i></a>
+</div>
+<script>
+(function(){window.addEventListener("DOMContentLoaded",function(){
+                                    var url=document.location;
+                                    var links=document.getElementById("sociallinks")
+                                    .getElementsByTagName('a');
+                                    for (var i=0;i!=links.length;i++){
+                                    links[i].setAttribute("href",
+                                        links[i].href.replace('/posts/realworld-haskell-yesod-part-1/index.html',url));}})})();
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+var disqus_shortname = 'maseek';
+
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+    <div class="footer">
+      <div class="social-links">
+
+        <a class="social" href="../../feed.xml" target="_blank">
+          <span class="symbol">
+            <span class="symbol">
+              <span class="zoom fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </span>
+          </span>
+        </a>
+
+        <a class="social" href="https://dev.to/tzemanovic" target="_blank">
+          <span class="symbol">
+            <span class="symbol">
+              <span class="zoom fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <img class="dev-to" src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg" alt="Tomas Zemanovic's DEV Profile" height="18" width="18" />
+              </span>
+            </span>
+          </span>
+        </a>
+
+        <a class="social" href="https://github.com/tzemanovic" target="_blank">
+          <span class="symbol">
+            <span class="symbol">
+              <span class="zoom fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </span>
+          </span>
+        </a>
+
+        <a class="social" href="mailto:tzemanovic@gmail.com" target="_blank">
+          <span class="symbol">
+            <span class="zoom fa-stack">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+            </span>
+          </span>
+        </a>
+
+        <a class="social" href="https://twitter.com/tzemanovic" target="_blank">
+          <span class="symbol">
+            <span class="symbol">
+              <span class="zoom fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </span>
+          </span>
+        </a>
+
+        <a class="social" href="https://au.linkedin.com/in/tomáš-zemanovič-19680740" target="_blank">
+          <span class="symbol">
+            <span class="symbol">
+              <span class="zoom fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </span>
+          </span>
+        </a>
+
+      </div>
+      <div class="about">
+        <p>Tomáš Zemanovič
+          <br /> This is page is <a href="https://github.com/tzemanovic/tzemanovic" target="_blank">open source</a>
+        </p>
+        <p>made with <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></p>
+      </div>
+
+      
+
+    </div>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="../../js/isotope.pkgd.min.js"></script>
+  <script src="../../js/maseek.min.js"></script>
+</body>
+
+</html>
